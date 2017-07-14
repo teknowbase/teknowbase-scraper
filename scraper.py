@@ -1,5 +1,5 @@
+#MODIFY LINE 52 TO UPDATE THE MYSQL PASSWORD BEFORE RUNNING THIS SCRIPT
 import wikipedia
-#import csv
 import random
 import time
 import pymysql
@@ -48,7 +48,8 @@ def main():
 	#csvfile = open("out.csv", "a")
 	#writer = csv.writer(csvfile)
 	i = 0
-	connection = pymysql.connect(host='localhost', user='root', password='admin', db='teknowbase', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
+	
+	connection = pymysql.connect(host='localhost', user='root', password='.....', db='teknowbase', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 	connection.autocommit(True)
 
 	index = sys.argv[1]
