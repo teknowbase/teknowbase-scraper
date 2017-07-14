@@ -1,14 +1,14 @@
-#TeKnowBase - Extraction of definitions of entities
+# TeKnowBase - Extraction of definitions of entities
 
-###Description of files/folders
+### Description of files/folders
 
-###Webpage
+### Webpage
 Contains the files necessary to retrieve definitions from the DB.
 
-###scraper.py
+### scraper.py
 The python script to extract definitions from wikipedia and store them in a MySQL DB.
 
-###Dependencies for python code: (python 2.7)
+### Dependencies for python code: (python 2.7)
 *	[wikipedia](https://wikipedia.readthedocs.io/en/latest/)
 *	[PyMySQL](http://pymysql.readthedocs.io/en/latest/)
 
