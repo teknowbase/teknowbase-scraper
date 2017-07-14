@@ -1,0 +1,146 @@
+<html>
+
+<head>
+    <title>Summary Generator</title>
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['{','}'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+
+</script>
+
+    <script src="jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+
+    </script>
+
+    <style>
+        body {
+            font: 13px verdana;
+            font-weight: normal;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <input type="button" id="btAdd" value="Add Entity" class="bt" />
+        <input type="button" id="btRemove" value="Remove Entity" class="bt" />
+        <br />
+    </div>
+    <br><br>
+    <input type="checkbox" id="enableDetDef" name="subscribe" value="newsletter">
+    <label for="enableDetDef">Enable Formal Definition</label>
+    <br/>
+    <input type=button class="bt" id=btSubmit value=Submit />
+</body>
+<script>
+    
+    
+</script>
+<script>
+    $(document).ready(function() {
+
+        var iCnt = 0;
+        // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
+        var container = $(document.createElement('div')).css({
+            padding: '5px',
+            margin: '20px',
+            width: '170px',
+            border: '1px dashed',
+            borderTopColor: '#999',
+            borderBottomColor: '#999',
+            borderLeftColor: '#999',
+            borderRightColor: '#999'
+        });
+
+        $('#btAdd').click(function() {
+            if (iCnt <= 19) {
+
+                iCnt = iCnt + 1;
+
+                // ADD TEXTBOX.
+                $(container).append('<input type=text class="input" id=tb' + iCnt + '  />');
+                // ADD BOTH THE DIV ELEMENTS TO THE "main" CONTAINER.
+                $('#main').after(container);
+            }
+            // AFTER REACHING THE SPECIFIED LIMIT, DISABLE THE "ADD" BUTTON.
+            // (20 IS THE LIMIT WE HAVE SET)
+            else {
+                $(container).append('<label>Reached the limit</label>');
+                $('#btAdd').attr('class', 'bt-disable');
+                $('#btAdd').attr('disabled', 'disabled');
+            }
+        });
+
+        // REMOVE ONE ELEMENT PER CLICK.
+        $('#btRemove').click(function() {
+            if (iCnt != 0) {
+                $('#tb' + iCnt).remove();
+                iCnt = iCnt - 1;
+            }
+
+            if (iCnt == 0) {
+                $(container)
+                    .empty()
+                    .remove();
+
+                $('#btSubmit').remove();
+                $('#btAdd')
+                    .removeAttr('disabled')
+                    .attr('class', 'bt');
+            }
+        });
+
+        $('#btSubmit').click(function() {
+            query = GetTextValue();
+            console.log(query);
+            if(query != '') {
+                //Create AJAX request
+                $.ajax({
+                type: "POST",
+                url: "sumGen.php",
+                data: "q=" + query,
+                success: function(data){
+                    console.log(data)
+                    $(divValue).append('<h2>Generated Summary</h2>' + data)
+                    $('body').append(divValue)
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub])
+                }
+                });
+            }
+        });
+
+    });
+
+    // PICK THE VALUES FROM EACH TEXTBOX WHEN "SUBMIT" BUTTON IS CLICKED.
+    var divValue, values = '';
+
+    function GetTextValue() {
+
+        $(divValue)
+            .empty()
+            .remove();
+
+        values = '\"';
+
+        $('.input').each(function() {
+            divValue = $(document.createElement('div')).css({
+                padding: '5px',
+                width: '1000px'
+            });
+            values += this.value + ','
+        });
+        values = values.slice(0, -1)
+        out = values.substr(0, values.length) + '\"'
+        return out;
+    }
+
+</script>
+
+</html>
